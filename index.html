@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Proposal</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial;
+    overflow:hidden;
+    background:linear-gradient(270deg,#ff5f6d,#ffc371,#ff5f6d);
+    background-size:600% 600%;
+    animation:gradient 10s ease infinite;
+}
+
+@keyframes gradient{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.container{
+    text-align:center;
+    color:white;
+}
+
+button{
+    padding:15px 28px;
+    margin:20px;
+    font-size:20px;
+    border:none;
+    border-radius:40px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+#yes{background:#ff2d75;color:white;}
+#no{background:white;position:absolute;}
+
+.popup{
+    display:none;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    font-size:30px;
+}
+
+/* Floating hearts */
+.heart{
+    position:fixed;
+    color:#ff2d75;
+    animation:float 6s linear infinite;
+    font-size:24px;
+}
+
+@keyframes float{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);}
+}
+</style>
+</head>
+
+<body>
+
+<audio autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+<h1>Will you be my Valentine? ❤️</h1>
+<button id="yes">Yes</button>
+<button id="no">No</button>
+</div>
+
+<div id="popup" class="popup">Yayyyy ❤️ I Love You</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+let noBtn=document.getElementById("no");
+let texts=["No","Are you sure?","Really sure?","Think again","Last chance","Please say yes,Think one more time please,don't you like me a bit?😒"];
+let i=0;
+let size=1;
+
+noBtn.addEventListener("mouseover",function(){
+    i=(i+1)%texts.length;
+    noBtn.innerText=texts[i];
+
+    let x=Math.random()*(window.innerWidth-100);
+    let y=Math.random()*(window.innerHeight-50);
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
+
+    size-=0.08;
+    if(size<0.4) size=0.4;
+    noBtn.style.transform="scale("+size+")";
+});
+
+document.getElementById("yes").onclick=function(){
+    document.getElementById("popup").style.display="block";
+    confetti({particleCount:200,spread:120});
+};
+
+/* Floating hearts */
+setInterval(()=>{
+    let heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤️";
+    heart.style.left=Math.random()*100+"vw";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+},400);
+
+/* Auto fullscreen mobile */
+document.body.addEventListener("click",()=>{
+    if(document.documentElement.requestFullscreen){
+        document.documentElement.requestFullscreen();
+    }
+});
+</script>
+
+</body>
+</html>
